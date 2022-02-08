@@ -4,13 +4,20 @@ window.SpeechRecognition =
 const recognition = new window.SpeechRecognition();
 recognition.interimResults = true;
 
+let p = document.createElement('p');
+const texts = document.querySelector('.texts');
+
 recognition.addEventListener('result', e => {
   const result = Array.from(e.results)
     .map(res => res[0])
     .map(res => res.transcript)
     .join('');
 
-  console.log(result);
+  p.innerText = result;
+
+  if (e.results[0].isFinal) p = document.createElement('p');
+
+  texts.appendChild(p);
 });
 
 recognition.addEventListener('end', () => recognition.start());
